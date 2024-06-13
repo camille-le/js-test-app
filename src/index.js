@@ -1,18 +1,15 @@
 // CL: Include Express Framework and dotenv
 require('dotenv').config();
 const express = require('express');
-
-// CL: Create new Express application
-const app = express();
-const port = 3000;
-
-// SC: Code to require other packages e.g. passport
 const fs = require('fs');
 const path = require('path');
 const passport = require('passport');
+
+const app = express();
+const port = 3000;
+
 const SnapchatStrategy = require('passport-snapchat').Strategy;
 
-// CL: Set a configuration object
 let config = {};
 try {
   fs.statSync(path.join(__dirname, './config'))
@@ -73,11 +70,9 @@ app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 
-
 // CL: Generate the session secret
 const crypto = require('crypto');
 const sessionSecret = crypto.randomBytes(20).toString('hex');
-console.log("Session Secret: ", sessionSecret);
 
 
 app.use(require('express-session')({
