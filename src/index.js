@@ -30,8 +30,8 @@ passport.use(new SnapchatStrategy({
     clientID: config.CLIENT_ID || process.env.CLIENT_ID,
     clientSecret: config.CLIENT_SECRET || process.env.CLIENT_SECRET,
     callbackURL: 'http://localhost:3000/login/snapchat/callback',
-    profileFields: ['displayName'],
-    scope: ['user.display_name'],
+    profileFields: ['id', 'displayName', 'bitmoji'],
+    scope: ['user.display_name', 'user.bitmoji.avatar'],
     pkce: true,
     state: true
   },
