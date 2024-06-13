@@ -30,8 +30,8 @@ passport.use(new SnapchatStrategy({
     clientID: config.CLIENT_ID || process.env.CLIENT_ID,
     clientSecret: config.CLIENT_SECRET || process.env.CLIENT_SECRET,
     callbackURL: 'http://localhost:3000/login/snapchat/callback',
-    profileFields: ['id', 'displayName', 'bitmoji'],
-    scope: ['user.display_name', 'user.bitmoji.avatar'],
+    profileFields: ['displayName'],
+    scope: ['user.display_name'],
     pkce: true,
     state: true
   },
@@ -72,8 +72,17 @@ app.set('view engine', 'ejs');
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
+
+
+// CL: Generate the session secret
+const crypto = require('crypto');
+const sessionSecret = crypto.randomBytes(20).toString('hex');
+console.log("Session Secret: ", sessionSecret);
+
+
 app.use(require('express-session')({
-  secret: config.SESSION_SECRET || process.env.SESSION_SECRET,
+  secret: sessionSecret,
+  // secret: config.SESSION_SECRET || process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
 }));
